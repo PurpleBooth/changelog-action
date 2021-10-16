@@ -1,0 +1,64 @@
+name: Generate a changelog
+description: Generate a changelog using git-cliff with a default config
+inputs:
+  config:
+    description: config file location
+    required: false
+    default: cliff.toml
+  args:
+    description: git-cliff arguments
+    required: false
+    default: -v
+  output:
+    description: Output file
+    required: false
+    default: CHANGELOG.md
+outputs:
+  changelog:
+    description: output file
+    value: ${{ steps.git-cliff.outputs.changelog }}
+runs:
+  using: composite
+  steps:
+  - name: Change files
+    run: |
+      if [ ! -f "$CONFIG" ]; then
+        echo "$CLIFF_CONFIG" > "$CONFIG"
+      fi
+    shell: bash
+    env:
+      CONFIG: ${{ inputs.config }}
+      CLIFF_CONFIG: |
+        [changelog]
+        header = """## Changelog
+        """
+        body = """
+        {% if version %}\
+            {% if previous %}\
+                ### [{{ version }}](https://github.com/${{ github.repository }}/compare/{{ previous.version }}...{{ version }}) ({{ timestamp | date(format="%Y-%m-%d") }})
+            {% else %}\
+                ### [{{ version }}](https://github.com/${{ github.repository }}/tree/{{ version }}) ({{ timestamp | date(format="%Y-%m-%d") }})
+            {% endif %}\
+        {% else %}\
+            ### [unreleased]
+        {% endif %}\
+        {% for group, commits in commits | group_by(attribute="group") %}
+            ### {{ group | upper_first }}
+            {% for commit in commits %}
+                - {% if commit.breaking %}**Breaking Change:** {% endif %}{{ commit.message | upper_first }} ([`{{ commit.id | truncate(length=7, end="") }}`](https://github.com/${{ github.repository }}/commit/{{ commit.id }}))\
+            {% endfor %}
+        {% endfor %}\n
+        """
+        trim = true
+
+        [git]
+        conventional_commits = true
+        tag_pattern = "v[0-9]*"
+  - name: Generate a changelog
+    uses: orhun/git-cliff-action@v1
+    id: git-cliff
+    with:
+      config: ${{ inputs.config }}
+      args: ${{ inputs.args }}
+    env:
+      OUTPUT: ${{ inputs.output }}
