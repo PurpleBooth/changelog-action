@@ -3,20 +3,16 @@ queue_rules:
   speculative_checks: 20
   batch_size: 20
   conditions:
-  - status-success=lint
-  - status-success=lint-markdown
-  - status-success=test
-  - status-success=docker-build
-  - status-success=versio-plan
+  - check-success~=^commit-checks /
+  - check-success~=^lint-markdown /
+  - check-success~=^test
 
 pull_request_rules:
 - name: automatic rebase for dependencies
   conditions:
-  - status-success=lint
-  - status-success=lint-markdown
-  - status-success=test
-  - status-success=docker-build
-  - status-success=versio-plan
+  - check-success~=^commit-checks /
+  - check-success~=^lint-markdown /
+  - check-success~=^test
   - base=main
   - author~=^dependabot(|-preview)\[bot\]$
   actions:
