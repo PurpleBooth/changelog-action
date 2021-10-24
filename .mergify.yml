@@ -6,6 +6,8 @@ queue_rules:
   - check-success~=^commit-checks /
   - check-success~=^lint-markdown /
   - check-success~=^test
+  - "#check-pending=0"
+  - "#check-success>3"
 
 pull_request_rules:
 - name: automatic rebase for dependencies
@@ -13,6 +15,8 @@ pull_request_rules:
   - check-success~=^commit-checks /
   - check-success~=^lint-markdown /
   - check-success~=^test
+  - "#check-pending=0"
+  - "#check-success>3"
   - base=main
   - author~=^dependabot(|-preview)\[bot\]$
   actions:
