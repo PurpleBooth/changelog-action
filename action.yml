@@ -45,7 +45,7 @@ runs:
         {% for group, commits in commits | group_by(attribute="group") %}
             ### {{ group | upper_first }}
             {% for commit in commits %}
-                - {% if commit.breaking %}**Breaking Change:** {% endif %}{{ commit.message | upper_first }} ([`{{ commit.id | truncate(length=7, end="") }}`](https://github.com/${{ github.repository }}/commit/{{ commit.id }}))\
+                - {% if commit.breaking %}**Breaking Change:** {% endif %}{% if commit.breaking %} *`{{commit.scope}}`* {% endif %}{{ commit.message | upper_first }} ([`{{ commit.id | truncate(length=7, end="") }}`](https://github.com/${{ github.repository }}/commit/{{ commit.id }}))\
             {% endfor %}
         {% endfor %}\n
         """
