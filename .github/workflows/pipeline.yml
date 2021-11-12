@@ -12,6 +12,8 @@ jobs:
     - uses: ./
     - run: '[[ -f "CHANGELOG.md" && -s "CHANGELOG.md" ]]'
       shell: bash
+    - run: 'cat "CHANGELOG.md"'
+      shell: bash
 
   lint-markdown:
     uses: PurpleBooth/common-pipelines/.github/workflows/markdown-check.yml@main
