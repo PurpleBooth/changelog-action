@@ -79,7 +79,7 @@ jobs:
     - env:
         GITHUB_TOKEN: ${{ github.token }}
       id: create_release
-      uses: ncipollo/release-action@v1.8.10
+      uses: ncipollo/release-action@v1.9.0
       with:
         allowUpdates: true
         token: ${{ github.token }}
