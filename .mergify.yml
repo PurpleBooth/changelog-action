@@ -3,20 +3,34 @@ queue_rules:
   speculative_checks: 20
   batch_size: 20
   conditions:
-  - check-success~=^commit-checks /
-  - check-success~=^lint-markdown /
-  - check-success~=^test
-  - "#check-pending=0"
-  - "#check-success>3"
+  - check-success=test
+  - check-success=lint-markdown / lint-markdown
+  - check-success=commit-checks / version
 
 pull_request_rules:
+- name: request review on external contributor
+  conditions:
+  - -author~=^dependabot(|-preview)\[bot\]$
+  - -author=PurpleBooth
+  actions:
+    assign:
+      add_users:
+      - PurpleBooth
+
+- name: request review on external contributor
+  conditions:
+  - '#check-failure>0'
+  - author~=^dependabot(|-preview)\[bot\]$
+  actions:
+    assign:
+      add_users:
+      - PurpleBooth
+
 - name: automatic rebase for dependencies
   conditions:
-  - check-success~=^commit-checks /
-  - check-success~=^lint-markdown /
-  - check-success~=^test
-  - "#check-pending=0"
-  - "#check-success>3"
+  - check-success=test
+  - check-success=lint-markdown / lint-markdown
+  - check-success=commit-checks / version
   - base=main
   - author~=^dependabot(|-preview)\[bot\]$
   actions:
