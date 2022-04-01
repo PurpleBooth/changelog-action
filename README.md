@@ -28,7 +28,7 @@ generate-changelog:
     with:
       fetch-depth: 0
       ref: v1.1.0
-  - uses: PurpleBooth/changelog-action@v0.3.2
+  - uses: PurpleBooth/changelog-action@v0.3.3
     with:
       args: v1.0.0..v1.1.0
 ```
