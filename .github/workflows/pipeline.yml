@@ -39,7 +39,7 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         fetch-depth: 0
-    - uses: chaaz/versio-actions/install@v1.2
+    - uses: chaaz/versio-actions/install@v1.3
       name: Install versio
     - id: previous_version
       run: echo ::set-output "name=previous_version::$( versio get --id 1 -v )"
