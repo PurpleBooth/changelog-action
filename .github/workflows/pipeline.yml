@@ -42,15 +42,15 @@ jobs:
     - uses: chaaz/versio-actions/install@v1.3
       name: Install versio
     - id: previous_version
-      run: echo ::set-output "name=previous_version::$( versio get --id 1 -v )"
-    - run: echo ::set-output "name=BUMP::$( versio release --dry-run )"
+      run: echo "previous_version=$( versio get --id 1 -v )" >> "$GITHUB_OUTPUT"
+    - run: echo "BUMP=$( versio release --dry-run )" >> "$GITHUB_OUTPUT"
       id: get_versio_plan
     - name: Generate release
       if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
       run: versio release
-    - run: echo ::set-output "name=current_version::$( versio get --id 1 -v )"
+    - run: echo "current_version=$( versio get --id 1 -v )" >> "$GITHUB_OUTPUT"
       id: current_version
-    - run: echo ::set-output "name=version_bump::true"
+    - run: echo "version_bump=true" >> "$GITHUB_OUTPUT"
       if: steps.current_version.outputs.current_version != steps.previous_version.outputs.previous_version
       id: version_bump
 
@@ -68,8 +68,7 @@ jobs:
         ref: v${{ needs.release.outputs.current_version }}
     - id: get_repository_name
       name: Calculate repository name
-      run: echo ::set-output name=REPOSITORY_NAME::$(echo "$GITHUB_REPOSITORY" | awk
-        -F / '{print $2}' | sed -e "s/:refs//")
+      run: echo "REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")" >> "$GITHUB_OUTPUT"
       shell: bash
     - uses: ./
       id: changelog
