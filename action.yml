@@ -58,7 +58,7 @@ runs:
         conventional_commits = true
         tag_pattern = "v[0-9]*"
   - name: Generate a changelog
-    uses: orhun/git-cliff-action@v2
+    uses: orhun/git-cliff-action@b7913b664658dd091d9971658cb02a19047baa79 # v2
     id: git-cliff
     with:
       config: ${{ inputs.config }}
