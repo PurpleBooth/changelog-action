@@ -23,7 +23,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs:
     - lint-markdown
-    - rust-checks
+    - test
     - commit-checks
     - docker-build
     outputs:
