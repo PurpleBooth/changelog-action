@@ -7,14 +7,14 @@ config
 
 ## Input variables
 
--   `config`: Path of the configuration file. (Default: `"cliff.toml"`)
--   `args`: [Arguments](https://github.com/orhun/git-cliff#usage) to
-    pass to git-cliff. (Default: `"-v"`)
--   `output`: The output file to write to (Default: `"CHANGELOG.md"`)
+- `config`: Path of the configuration file. (Default: `"cliff.toml"`)
+- `args`: [Arguments](https://github.com/orhun/git-cliff#usage) to pass
+  to git-cliff. (Default: `"-v"`)
+- `output`: The output file to write to (Default: `"CHANGELOG.md"`)
 
 ## Output variables
 
--   `changelog`: Output file that contains the generated changelog.
+- `changelog`: Output file that contains the generated changelog.
 
 ## Example usage
 
