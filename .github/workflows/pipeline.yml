@@ -25,7 +25,6 @@ jobs:
     - lint-markdown
     - test
     - commit-checks
-    - docker-build
     outputs:
       current_version: ${{ steps.current_version.outputs.current_version }}
       previous_version: ${{ steps.previous_version.outputs.previous_version }}
